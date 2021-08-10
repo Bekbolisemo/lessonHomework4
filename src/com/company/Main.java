@@ -3,16 +3,16 @@ package com.company;
 import java.util.Random;
 
 public class Main {
-
-    public static int bossHealth = 700;
-    public static int bossDamage = 50;
+    public static int random = (int) (Math.random() * 35);
+    public static int bossHealth = 70000;
+    public static int bossDamage = 30;
     public static String bossDefence = "";
-    public static int[] heroesHealth = {260, 250, 270,};
-    public static int[] heroesDamage = {15, 20, 10,};
+    public static int[] heroesHealth = {250, 250, 250,};
+    public static int[] heroesDamage = {35, 37, 23,};
     public static String[] heroesAttackType = {
             "Physical", "Magical", "Kinetic"};
     public static int medicHeal;
-    public static int medicHealth = 50;
+    public static int medicHealth = 30000;
 
 
     public static void main(String[] args) {
@@ -20,13 +20,15 @@ public class Main {
         while (!isGameFinished()) {
             round();
         }
-        System.out.println(shooseMedicHeal());
+        System.out.println(random);
     }
 
     public static void round() {
         if (bossHealth > 0) {
             chooseBossDefence();
             bossHits();
+            bossHitsMedic();
+
         }
         heroesHit();
         printStatistics();
@@ -40,7 +42,7 @@ public class Main {
         System.out.println("Boss choose: " + bossDefence);
     }
 
-    public static int shooseMedicHeal(){
+  /*  public static int shooseMedicHeal() {
         int min = 1;
         int max = 35;
         int diff = max - min;
@@ -48,10 +50,8 @@ public class Main {
         int i = random.nextInt(diff + 1);
         i += min;
 
-        medicHeal = i;
         return i;
-    }
-
+     }*/
     public static boolean isGameFinished() {
         if (bossHealth <= 0) {
             System.out.println("Heroes won!!!");
@@ -77,7 +77,6 @@ public class Main {
 
     public static void heroesHit() {
 
-
         for (int i = 0; i < heroesDamage.length; i++) {
             if (heroesHealth[i] > 0 && bossHealth > 0) {
                 if (bossDefence == heroesAttackType[i]) {
@@ -95,15 +94,39 @@ public class Main {
                         bossHealth = 0;
                     } else {
                         bossHealth = bossHealth - heroesDamage[i];
+                      //  heroesHealth[i] = heroesHealth[i] + shooseMedicHeal();
                     }
                 }
-                if (heroesHealth[i] > 0 ){
-                    medicHeal =medicHeal + heroesHealth[i] ;
+                if (heroesHealth[i] <100 && heroesHealth[i] >0 && medicHealth >0){
+                    for (int j = 0; j < heroesHealth.length; j++) {
+                        heroesHealth[i] = (int) (Math.random() * 35);
+                        heroesHealth[i] = heroesHealth[i] + random;
+                    }
+                }
+                //     healMedic();
             }
 
-            }
-        }
+          /*  for (int iP = 0; iP < heroesHealth.length; iP++) {
+                if (heroesHealth[iP] < 100 && heroesHealth[iP] > 0 && medicHealth > 0) {
+                  if (heroesHealth[iP] > 0) {
+                        heroesHealth[iP] = shooseMedicHeal() + heroesHealth[iP];
+                    }
+                }                               // хил всех
+
+        }*/
+
     }
+    /*   public static void healMedic() {
+            for (int d : heroesHealth ) {
+                if (heroesHealth[d] <100 && heroesHealth[d] >0 && medicHealth >0){
+                    if (heroesHealth[d] > 0){
+                        heroesHealth[d] = shooseMedicHeal() + heroesHealth[d];
+
+                    }                     // попытка правельного хила
+                }
+            }
+        }*/
+}
 
     public static void bossHits() {
         for (int i = 0; i < heroesHealth.length; i++) {
@@ -112,11 +135,22 @@ public class Main {
                     heroesHealth[i] = 0;
                 } else {
                     heroesHealth[i] = heroesHealth[i] - bossDamage;
+
                 }
             }
-
         }
-    }
+    } // рабочий метод
+
+    public static void bossHitsMedic() {
+
+        if (medicHealth > 0) {
+            if (medicHealth - bossDamage < 0) {
+                medicHealth = 0;
+            } else {
+                medicHealth = medicHealth - bossDamage;
+            }
+        }
+    } // рабочий метод
 
     public static void printStatistics() {
         System.out.println("++++++++++++++");
@@ -127,7 +161,7 @@ public class Main {
                     + " health: " + heroesHealth[i] + " ["
                     + heroesDamage[i] + "]");
         }
-        System.out.println("medicHealth: " + medicHealth + " -medicHeal [" + medicHeal + "]");
+        System.out.println("medicHealth: " + medicHealth + " -medicHeal [" + random + "]");
         System.out.println("++++++++++++++");
     }
 }
