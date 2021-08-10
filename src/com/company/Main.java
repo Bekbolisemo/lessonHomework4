@@ -31,6 +31,7 @@ public class Main {
 
         }
         heroesHit();
+        medicHeal();
         printStatistics();
 
     }
@@ -42,7 +43,7 @@ public class Main {
         System.out.println("Boss choose: " + bossDefence);
     }
 
-  /*  public static int shooseMedicHeal() {
+    public static int randomHeal() {
         int min = 1;
         int max = 35;
         int diff = max - min;
@@ -51,7 +52,7 @@ public class Main {
         i += min;
 
         return i;
-     }*/
+     }
     public static boolean isGameFinished() {
         if (bossHealth <= 0) {
             System.out.println("Heroes won!!!");
@@ -97,12 +98,12 @@ public class Main {
                       //  heroesHealth[i] = heroesHealth[i] + shooseMedicHeal();
                     }
                 }
-                if (heroesHealth[i] <100 && heroesHealth[i] >0 && medicHealth >0){
+               /* if (heroesHealth[i] <100 && heroesHealth[i] >0 && medicHealth >0){
                     for (int j = 0; j < heroesHealth.length; j++) {
                         heroesHealth[i] = (int) (Math.random() * 35);
                         heroesHealth[i] = heroesHealth[i] + random;
                     }
-                }
+                } */
                 //     healMedic();
             }
 
@@ -126,6 +127,19 @@ public class Main {
                 }
             }
         }*/
+}
+public static void medicHeal(){
+    for (int i = 0; i < heroesHealth.length; i++) {
+
+        if (heroesHealth[i] <100 && heroesHealth[i] >0 && medicHealth >0){
+            for (int j = 0; j < heroesHealth.length; j++) {
+                heroesHealth[i] = (int) (Math.random() * 35);
+                //heroesHealth[i] = heroesHealth[i] + random;
+                heroesHealth[i]= heroesHealth[i] + randomHeal();
+            }
+        }
+    }
+
 }
 
     public static void bossHits() {
